@@ -28,7 +28,7 @@ def load():
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     
-    file_path=os.path.join(base_dir,'templates', 'popular.pkl')
+    file_path=os.path.normpath(os.path.join(base_dir,'templates', 'popular.pkl'))
     if os.path.exists(file_path):
         os.remove(file_path)
     pickle.dump(popular_df,open(file_path,'wb'))
