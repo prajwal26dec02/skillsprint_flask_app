@@ -32,7 +32,7 @@ with app.app_context():
     pathFromCsv(path_csv_path)
     ratingFromCsv(rating_csv_path)
     load()
-    file_path=os.path.join('flask_app\\templates','popular.pkl')
+    file_path=os.path.join(base_dir,'templates','popular.pkl')
     popular_df=pickle.load(open(file_path,'rb'))
     
 
