@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Course</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='App.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/3.0.10/tailwind.min.css" integrity="sha512-8qizvFhCHZp9i5y2Pw/g85vCqoHh+f5fKu7qP3elR5KEX0PTsWJ40Pgv7o0CZ1HsbSgwlPSlnObgquSWw0ypaw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .button {
+            font-weight: 500;
+            padding: 0.8rem 1.6rem;
+            color:white;
+            
+            background:#4066ff;
+            border: none;
+            border-radius: 0.5rem;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        /* .button:hover {
+            background: var(--blue-dark);
+        } */
+        .primaryText {
+            color: #1f3e72;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+        .container {
+            padding-top: 80px;
+            text-align: center;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        function redirectToDashboard(umail, cname, cby, img, link) {
+            $('#message').text('Adding course to your profile...');
+            $.ajax({
+                type: 'POST',
+                url: '/add',
+                data: JSON.stringify({
+                    umail: umail,
+                    cname: cname,
+                    cby: cby,
+                    img: img,
+                    link: link
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+                    $('#message').text('Course added to your profile');
+                    setTimeout(function () {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                },
+                error: function (xhr, status, error) {
+                    $('#message').text('Error adding course: ' + error);
+                }
+            });
+        }
+
+        function goToPreviousPage(){
+            window.history.back();
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
+    {% if user %}
+        <div class="container">
+            <h1 class="primaryText" style="text-align: center;"> Did you take the course?</h1>
+            <div class="flex space-x-4">
+                <button onclick="redirectToDashboard('{{ user.email }}','{{ name }}','{{ by }}','{{ img }}','{{ url }}')" class="button">Yes</button>
+                <button onclick="goToPreviousPage()" class="button">No</button>
+            </div>
+            <p id="message" class="mt-4 text-gray-600 text-center"></p>
+        </div>
+    {% endif %}
+</body>
+
+</html>

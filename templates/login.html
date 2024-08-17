@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 360px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slide-in-bottom 0.5s ease-out;
+        }
+        @keyframes slide-in-bottom {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: border-color 0.3s ease-in-out;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #3490dc;
+        }
+        .error-message {
+            font-size: 14px;
+            color: #e53e3e;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background-color: #3490dc;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .submit-btn:hover {
+            background-color: #2779bd;
+        }
+        .register-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #3490dc;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+        .register-link:hover {
+            color: #2779bd;
+        }
+        .new-here {
+            text-align: center;
+            margin-top: 10px;
+            color: #555;
+            font-size: 14px;
+        }
+        .new-here a {
+            color: #3490dc;
+            text-decoration: underline;
+            transition: color 0.3s ease-in-out;
+        }
+        .new-here a:hover {
+            color: #2779bd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Log in</h1>
+        <form method="POST" action="/login">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label for="email">Email:</label>
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <small class="error-message">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                {{ form.password(class="form-control") }}
+                {% for error in form.password.errors %}
+                    <small class="error-message">{{ error }}</small>
+                {% endfor %}
+            </div>
+            <button type="submit" class="submit-btn">Log in</button>
+            <p class="new-here">New here? <a href="/register" class="register-link">Create an account</a></p>
+        </form>
+    </div>
+</body>
+</html>

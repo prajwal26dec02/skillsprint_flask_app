@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='App.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body class="bg-gray-100 h-screen flex flex-col justify-center items-center">
+    <h2 class="text-3xl font-bold mb-8 text-center primaryText" style="color: #4066ff">Path to learn {{ path_row.skill }}</h2>
+    <div class="grid grid-cols-1 gap-4 max-w-md">
+        <a href="/courses?step={{ path_row.step1 }}" class="block bg-white shadow-md hover:bg-gray-100 py-4 px-6 rounded-md text-lg font-medium text-center transition duration-300 ease-in-out">{{ path_row.step1 }}</a>
+        <a href="/courses?step={{ path_row.step2 }}" class="block bg-white shadow-md hover:bg-gray-100 py-4 px-6 rounded-md text-lg font-medium text-center transition duration-300 ease-in-out">{{ path_row.step2 }}</a>
+        <a href="/courses?step={{ path_row.step3 }}" class="block bg-white shadow-md hover:bg-gray-100 py-4 px-6 rounded-md text-lg font-medium text-center transition duration-300 ease-in-out">{{ path_row.step3 }}</a>
+        <a href="/courses?step={{ path_row.step4 }}" class="block bg-white shadow-md hover:bg-gray-100 py-4 px-6 rounded-md text-lg font-medium text-center transition duration-300 ease-in-out">{{ path_row.step4 }}</a>
+    </div>
+</body>
+</html>

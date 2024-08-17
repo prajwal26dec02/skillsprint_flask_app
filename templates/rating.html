@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'>
+    <title>Rating system</title>
+</head>
+<body style="text-align: center; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <div align="center" style="background: #4066ff; border-radius: 8px; padding: 50px; display: inline-block; vertical-align: middle; line-height: normal;">
+        <h1 style="color: white;">Review the Course</h1>
+        <i class="fa fa-star fa-2x" data-index="0"></i>
+        <i class="fa fa-star fa-2x" data-index="1"></i>
+        <i class="fa fa-star fa-2x" data-index="2"></i>
+        <i class="fa fa-star fa-2x" data-index="3"></i>
+        <i class="fa fa-star fa-2x" data-index="4"></i>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        var ratedIndex=-1;
+        var user_id = {{ user.id }};
+        var cid = {{ course.cid.iloc[0] }};
+        $(document).ready(function(){
+            resetStarColors();
+
+            if(localStorage.getItem('ratedIndex')!=null)
+                setStars(parseInt(localStorage.getItem('ratedIndex')));
+
+            $('.fa-star').on('click',function(){
+                ratedIndex=parseInt($(this).data('index'));
+                localStorage.setItem('ratedIndex',ratedIndex);
+                saveToTheDB();
+            })
+
+            $('.fa-star').mouseover(function(){
+                resetStarColors();
+                var currentIndex=parseInt($(this).data('index'));
+                setStars(currentIndex);
+            })
+            $('.fa-star').mouseleave(function(){
+                resetStarColors();
+
+                if(ratedIndex!=-1)
+                    setStars(ratedIndex);
+            })
+        });
+
+        function saveToTheDB(){
+            var data = {
+                "user_id": user_id,
+                "cid": cid,
+                "ratedIndex": ratedIndex+1
+            };
+        
+            $.ajax({
+                type: "POST",
+                url: "/rating",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log("Rating saved successfully");
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error saving rating:", error);
+                }
+            });
+            window.location.href = '/recommendation?cid='+encodeURIComponent(cid);
+        }
+
+        function setStars(max){
+            for(var i=0;i<=max;i++)
+                $('.fa-star:eq('+i+')').css('color','yellow');
+        }
+        function resetStarColors(){
+            $('.fa-star').css('color', 'white');
+        }
+    </script>
+</body>
+</html>
